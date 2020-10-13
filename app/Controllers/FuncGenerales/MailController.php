@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\FuncGenerales;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -13,9 +13,9 @@ class MailController {
     }
 
     private function load() {
-        require_once APPATH . 'Libraries/PHPMailer/src/Exception.php';
-        require_once APPATH . 'Libraries/PHPMailer/src/PHPMailer.php';
-        require_once APPATH . 'Libraries/PHPMailer/src/SMTP.php';
+        require_once APPPATH . 'Libraries/PHPMailer/src/Exception.php';
+        require_once APPPATH . 'Libraries/PHPMailer/src/PHPMailer.php';
+        require_once APPPATH . 'Libraries/PHPMailer/src/SMTP.php';
 
         $mailer = new PHPMailer(true);
         return $mailer;
@@ -32,18 +32,18 @@ class MailController {
                 'allow_self_signed' => true
             )
         );
-        $mailer->Host = 'host';
+        $mailer->Host = 'smtp.gmail.com';
         $mailer->SMTPAuth = true;
-        $mailer->Username = 'usuario smtp';
-        $mailer->Password = 'clave smtp';
-        $mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
-        $mailer->Port = 'PORT';
+        $mailer->Username = 'rentaautos.sv@gmail.com';
+        $mailer->Password = 'Renta_autos20';
+        $mailer->SMTPSecure = 'ssl';
+        $mailer->Port = 465;
 
         /*         * **CONFIGURACION DE DESTINATARIO** */
-        $mailer->setFrom('quien lo envia');
-        $mailer->addAddress('destinatario', 'nombre');
-        $mailer->Subject = 'asunto';
-        $mailer->Body = 'html cuerpo';
+        $mailer->setFrom('rentaautos.sv@gmail.com');
+        $mailer->addAddress($data['correo'], $data['nombres'].' '.$data['apellidos']);
+        $mailer->Subject = 'Inicio de sesion';
+        $mailer->Body = 'hola '.$data['nombres'].' '.$data['apellidos']. ' hemos detectado un inicio de sesion';
         $mailer->isHTML(true);
         $mailer->CharSet = 'UTF-8';
 

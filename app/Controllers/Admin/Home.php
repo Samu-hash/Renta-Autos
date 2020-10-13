@@ -3,7 +3,7 @@
 namespace App\Controllers\Admin;
 
 use App\Controllers\BaseController;
-use App\Controllers\MailController;
+use App\Controllers\FuncGenerales\MailController;
 use App\Models\UsuariosModel;
 use DateTime;
 
@@ -97,7 +97,7 @@ class Home extends BaseController {
                     if ($usuario['estado'] == "A") {
                         $data = [
                             "usuario" => $usuario['id_usuario'],
-                            "correo" => $usuario['correo_electronico'],
+                            "correo" => $correo,
                             "f_inc_sesion" => new DateTime('now'),
                             "nombres" => $usuario['nombres'],
                             "apellidos" => $usuario['apellidos']
@@ -156,6 +156,20 @@ class Home extends BaseController {
         } catch (Exception $ex) {
             return false;
         }
+    }
+
+    public function recuperarDatosSesion() {
+        session_start();
+        $data = $_SESSION['LOG_ADMIN'];
+        echo json_encode($data);
+    }
+
+    public function cerrarSesion() {
+        session_start();
+        session_destroy();
+        echo json_encode([
+           "url"=> base_url()."/Admin"
+        ]);
     }
 
     /*     * ***FUNCION DE SESION Y RECUPERACION DE DATOS END*** */
